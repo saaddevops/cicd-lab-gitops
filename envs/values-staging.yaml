@@ -1,0 +1,4 @@
+replicas: 1
+appVersion: v1
+image:
+  tag: "PASTE_THE_SHA_TAG_HERE"
