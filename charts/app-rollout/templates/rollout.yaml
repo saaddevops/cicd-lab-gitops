@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: app
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: APP_VERSION
+              value: {{ .Values.appVersion | quote }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+  strategy:
+    canary:
+      stableService: {{ .Release.Name }}-stable
+      canaryService: {{ .Release.Name }}-canary
+      trafficRouting:
+        alb:
+          ingress: {{ .Release.Name }}
+          servicePort: 80
+      steps:
+        - setWeight: 10
+        - pause: {duration: 3m}
+        - setWeight: 50
+        - pause: {duration: 2m}
