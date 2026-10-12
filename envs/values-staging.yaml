@@ -1,4 +1,4 @@
 replicas: 1
 appVersion: v1
 image:
-  tag: "PASTE_THE_SHA_TAG_HERE"
+  tag: "d542a1f9c1b4208c7b172784f17a41cf611dbc45"
