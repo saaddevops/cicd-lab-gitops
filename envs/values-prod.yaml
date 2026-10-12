@@ -1,4 +1,4 @@
 replicas: 2
-appVersion: v2
+appVersion: v3
 image:
   tag: "d542a1f9c1b4208c7b172784f17a41cf611dbc45"
